@@ -1,0 +1,84 @@
+как правильно закидывать widgets_default_config.json?
+Знаю что POST по этому ресту https://public-gateway-cloudbss-kube-csrd-dev3.k8s-apps.openshift.sdntest.netcracker.com/api/v1/csrd-main-app-api/productWidgets/register
+
+Register fragments (new)
+curl -X PUT \
+  internal-gateway-service:8080/api/v1/mui-platform/fragments-configuration \
+  -H "Content-Type: multipart/form-data" \
+  -H "Namespace: ${NAMESPACE}" \
+  -F configuration=@/usr/share/nginx/html/configuration.zip
+
+# Register configuration (new)
+curl -X POST \
+  internal-gateway-service:8080/api/v1/csrd-main-app-api/productWidgets/register \
+  -H "Content-Type: application/json" \
+  -d @/usr/share/nginx/html/widgets_default_config.json
+
+https://git.netcracker.com/PROD.CCSM.CloudBSS/csrd-b2b-widgets/-/blob/master/docker/init-route.sh
+
+-----------------------------------------------------------------------------------------------
+
+Креды
+cpq-admin@netcracker.com
+MARket1234!
+
+-----------------------------------------------------------------------------------------------
+
+Дефолтный проект = 1, samples = 42
+
+-----------------------------------------------------------------------------------------------
+
+отключить CORS
+windows+R => chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
+
+-----------------------------------------------------------------------------------------------       
+    
+удаление порта
+netstat -ano|findstr "PID :4200"
+taskkill /pid 18264 /f
+
+-----------------------------------------------------------------------------------------------
+
+креды гит
+Credential Manager(диспетчер учетных данных) в поиск -> учетные данные Windows -> git -> правка
+
+-----------------------------------------------------------------------------------------------      
+
+фидлером
+https://content-delivery-cloudbss-kube-csrd-dev3.k8s-apps.openshift.sdntest.netcracker.com/bc1db4e9-f1da-42b4-946c-de88972574a0/api/v1/mui-platform/fragment/
+
+фидлера файл чтобы респонз у gql запросов подменять (500 ошибка), вот коллекция и файл. 
+Чтобы заработало нужно 500_GraphQlTemplate.dat положить в {{UserFolder}}\AppData\Local\Programs\Fiddler\ResponseTemplates
+
+-----------------------------------------------------------------------------------------------
+
+figma: raman.krauchanka@netcracker.com, 8463317ROma
+
+-----------------------------------------------------------------------------------------------
+
+реиндек ElasticSearch
+1) Сваггер сим-коре
+2) Выбираем в правом верхнем углу "Common"
+3) выполняем "/common/v1/index/start-reindex"
+
+-----------------------------------------------------------------------------------------------
+
+CLOUDCRM-0
+
+-----------------------------------------------------------------------------------------------
+
+run sdk showcases: build:widgets-sdk => build:widgets-sdk-components
+
+------------------------------------------------------------------------------------------------
+
+креды minio
+cloudbss-portal-user / FGhmG9wy
+
+------------------------------------------------------------------------------------------------
+
+креды bss-config
+bsscm-admin@netcracker.com / MARket1234!
+
+------------------------------------------------------------------------------------------------
+
+packageJsonHostApp

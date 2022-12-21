@@ -1,0 +1,6 @@
+{
+  "serverPort": 5000,
+  "dbUrl": "mongodb+srv://roman:8463317ROMA@nodeexpressproject.8wjadsq.mongodb.net/?retryWrites=true&w=majority",
+  "secretKey": "secret-key",
+  "filePath": "C:\\Users\\rakr0819\\Desktop\\cloud-disk\\server\\files"
+}
