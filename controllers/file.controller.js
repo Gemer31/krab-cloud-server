@@ -12,9 +12,11 @@ class FileController {
             const parentFile = await File.findOne({ _id: parent});
             if (!parentFile) {
                 file.path = name;
+                file.parents = [];
                 await fileService.createDir(file);
             } else {
                 file.path = `${parentFile.path}\\${file.name}`;
+                file.parents = [...parentFile.parents, { name: parentFile.name, parent }];
                 await fileService.createDir(file);
                 parentFile.childs.push(file._id);
                 await parentFile.save();
@@ -30,7 +32,8 @@ class FileController {
     async getFiles(req, res) {
         try {
             const files = await File.find({ user: req.user.id, parent: req.query.parent });
-            return res.json({ files });
+            const parent = await File.findOne({ _id: req.query.parent } );
+            return res.json({ parent, files });
         } catch (e) {
             console.log(e);
             return res.status(500).json({ message: "Can not get files" });
