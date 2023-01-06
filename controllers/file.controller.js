@@ -40,6 +40,37 @@ class FileController {
         }
     }
 
+    async searchFiles(req, res) {
+        try {
+            const allFiles = await File.find({ user: req.user.id });
+            const filteredFiles = allFiles.filter((file) => file.name.includes(req.query.text))
+            return res.json({ files: filteredFiles });
+        } catch (e) {
+            console.log(e);
+            return res.status(500).json({ message: "Something went wrong" });
+        }
+    }
+
+    async deleteFile(req, res) {
+        try {
+            const file = await File.findOne({ _id: req.query.id, user: req.user.id });
+            const user = await User.findOne({ _id: req.user.id });
+
+            if (!file) {
+                return res.status(404).json({ message: "File is not found" });
+            }
+            fileService.deleteFile(file);
+            user.usedSpace = user.usedSpace - file.size;
+
+            user.save();
+            file.remove();
+            return res.json({ message: "File deleted successfully" });
+        } catch (e) {
+            console.log(e);
+            return res.status(400).json({ message: "Dir is not empty" });
+        }
+    }
+
     async uploadFile(req, res) {
         try {
             const file = req.files.file;
@@ -64,10 +95,14 @@ class FileController {
             }
             file.mv(path);
             const type = file.name.split(".").pop();
+            let filePath = file.name;
+            if (parent) {
+                filePath = parent.path + "\\" + file.name;
+            }
             const dbFile = new File({
                 name: file.name,
                 size: file.size,
-                path: file.path,
+                path: filePath,
                 parent: parent?.id,
                 user: user._id,
                 type,
@@ -80,6 +115,20 @@ class FileController {
         } catch (e) {
             console.log(e);
             return res.status(500).json({ message: "Upload error" });
+        }
+    }
+
+    async downloadFile(req, res) {
+        try {
+            const file = await File.findOne({ user: req.user.id, _id: req.query.id});
+            const filePath = fileService.getPath(file);
+            if (!fs.existsSync(filePath)) {
+                return res.status(400).json({ message: "File not found" });
+            }
+            return res.download(filePath, file.name);
+        } catch (e) {
+            console.log(e);
+            return res.status(500).json({ message: "Download error" });
         }
     }
 }
